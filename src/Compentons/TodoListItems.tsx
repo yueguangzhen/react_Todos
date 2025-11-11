@@ -1,22 +1,32 @@
+import { Trash2 } from 'lucide-react';
 import type { Todo } from '../types/todo';
+
 interface TodoListItems {
   todo: Todo;
-  OnCompletedChange: (id: number, completed: boolean) => void;
+  onCompletedChange: (id: number, completed: boolean) => void;
+  onDelete: (id: number) => void;
 }
-const TodoListItems = ({ todo, OnCompletedChange }: TodoListItems) => {
+const TodoListItems = ({
+  todo,
+  onCompletedChange,
+  onDelete,
+}: TodoListItems) => {
   return (
-    <div>
-      <label className="flex items-center gap-2 border rounded-md p-2 border-gray-400 bg-white hover:bg-slate-50">
+    <div className="flex items-center gap-1">
+      <label className="flex items-center gap-2 border rounded-md p-2 border-gray-400 bg-white hover:bg-slate-50 grow">
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={(e) => OnCompletedChange(todo.id, e.target.checked)}
+          onChange={(e) => onCompletedChange(todo.id, e.target.checked)}
           className="scale-125 accent-green-600"
         />
         <span className={todo.completed ? 'line-through text-gray-400' : ''}>
           {todo.title}
         </span>
       </label>
+      <button onClick={() => onDelete(todo.id)}>
+        <Trash2 size={20} className="text-gray-500" />
+      </button>
     </div>
   );
 };
