@@ -3,6 +3,8 @@ import { dummyData } from './data/todos';
 import { useState } from 'react';
 import TodoForm from './Compentons/TodoForm';
 import TodoList from './Compentons/TodoList';
+import TodoSummary from './Compentons/TodoSummary';
+
 function App() {
   const [todos, setTodos] = useState(dummyData);
 
@@ -14,13 +16,17 @@ function App() {
 
   function addTodo(title: string) {
     setTodos((prevTodos) => [
-      { id: prevTodos.length + 1, title, completed: false },
+      { id: Date.now(), title, completed: false },
       ...prevTodos,
     ]);
   }
 
   function deleteTodo(id: number) {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+  }
+
+  function deleteAllCompleted() {
+    setTodos((prevTodos) => prevTodos.filter((todo) => !todo.completed));
   }
 
   return (
@@ -34,6 +40,7 @@ function App() {
           onDelete={deleteTodo}
         />
       </div>
+      <TodoSummary todos={todos} deleteAllCompleted={deleteAllCompleted} />
     </main>
   );
 }
